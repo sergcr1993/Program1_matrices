@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#Sergio Campos Ramirez
+#Program 1 – CS 344
+#10/01/2019
+
+#The pupose of this program is to
+#write bash shell scripts to compute
+#matrix operations. The program performs
+#the following operations:
+#dims, transpose, mean, add, and multiply
