@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#Sergio Campos Ramirez
+#Program 1 – CS 344
+#10/01/2019
+
+#The pupose of this program is to
+#write bash shell scripts to compute
+#matrix operations. The program performs
+#the following operations:
+#dims, transpose, mean, add, and multiply
+
+# Temporary files
+tempFile="tempfile$$"
+
+#Deteles temporary files
+deleteTempFiles() {
+	rm -f *$$
+}
+
+# This function prints out the
+# dimensions of the matrix passed in.
+# It is rows by columns.
+function dims(){ 
+
+	#Initialize rows 
+	row=0
+
+	#Looping through each line of matrix
+	while read myLine
+	do
+
+		#Initialize columns 
+		column=0
+
+		#Looping through each element by
+		#evaluating the expression
+		for i in $myLine
+		do
+			column=`expr $column + 1`
+		done	
+		row=`expr $row + 1`
+	done < $1
+
+	echo "$row $column"
+
+}
+
+
+#The following instructions validate commands
+#that input by the user. The first step in the hierarchy
+#checks to see how many arguments are passed on using
+#comparison operators.
+if ([ $# -ge 1 ] && [ $# -lt 3 ])
+then
+	case $1 in
+		dims)
+			#Sets inout from stdin
+			cat $2 > $tempFile
+
+			#Ensures that file is readable
+			if [ ! -f $tempFile ] || [ ! -s $tempFile  ] || [ ! -r $tempFile ]
+			then
+				echo "The file is unreadable" >&2
+				deleteTempFiles
+				exit 1
+			else
+				dims $tempFile
+			fi
+		;;
+		#Print error when user uses invalid commands
+		*)
+			echo "That command is not valid!" >&2 
+			exit 1
+		;;
+	esac
+else
+	echo "You entered an invalid number of arguments!" 1>&2
+	exit 1	
+fi
